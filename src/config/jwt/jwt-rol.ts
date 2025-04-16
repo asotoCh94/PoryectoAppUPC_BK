@@ -1,0 +1,8 @@
+export enum JwtRol {
+    /*COMERCIAL = 'COMERCIAL',
+    OPERACIONES = 'OPERACIONES',
+    ADMIN = 'ADMIN',*/
+    OPCION1 = 'OPCION1',
+    OPCION2 = 'OPCION2',
+    OPCION3 = 'OPCION3',
+}

@@ -1,0 +1,63 @@
+crear base de datos nombre 
+
+ejecutar tablas
+
+CREATE TABLE `proyecto_app_upc`.`usuario` (
+  `IN_ID_USER` INT NOT NULL,
+  `VC_PREFIX` VARCHAR(20) NULL,
+  `VC_NOMBRE` VARCHAR(20) NULL,
+  `VC_APELLIDO` VARCHAR(20) NULL,
+  `VC_NRODOC` VARCHAR(20) NULL,
+  `VC_EMAIL` VARCHAR(45) NULL,
+  `VC_TELEFONO` VARCHAR(20) NULL,
+  `VC_PASSWORD` VARCHAR(500) NULL,
+  `VC_TOKEN` VARCHAR(500) NULL,
+  `VC_FOTO` VARCHAR(500) NULL,
+  `VC_ESTADO` VARCHAR(5) NULL,
+  `VC_USER_REG` VARCHAR(20) NULL,
+  `DT_FEC_REG` DATETIME NULL,
+  `VC_USER_MOD` VARCHAR(20) NULL,
+  `DT_FEC_MOD` DATETIME NULL,
+  PRIMARY KEY (`IN_ID_USER`));
+
+
+  CREATE TABLE `proyecto_app_upc`.`roles_app` (
+  `IN_ID_ROLES` INT NOT NULL,
+  `VC_NOMBRE` VARCHAR(20) NULL,
+  `VC_IMAGEN` VARCHAR(500) NULL,
+  `VC_RUTA_PAGINA` VARCHAR(20) NULL,
+  `VC_ESTADO` VARCHAR(5) NULL,
+  `VC_USER_REG` VARCHAR(20) NULL,
+  `DT_FEC_REG` DATETIME NULL,
+  `VC_USER_MOD` VARCHAR(20) NULL,
+  `DT_FEC_MOD` DATETIME NULL,
+  PRIMARY KEY (`IN_ID_ROLES`));
+
+CREATE TABLE `proyecto_app_upc`.`usuario_has_roles` (
+  `IN_ID_USER_HAS_ROLES` INT NOT NULL AUTO_INCREMENT,
+  `IN_ID_USER` INT NULL,
+  `IN_ID_ROLES` INT NULL,
+  `VC_ESTADO` VARCHAR(5) NULL,
+  `VC_USER_REG` VARCHAR(20) NULL,
+  `DT_FEC_REG` DATETIME NULL,
+  `VC_USER_MOD` VARCHAR(20) NULL,
+  `DT_FEC_MOD` DATETIME NULL,
+  PRIMARY KEY (`IN_ID_USER_HAS_ROLES`));
+
+
+  *****************************************
+
+  insert 
+
+INSERT INTO `proyecto_app_upc`.`usuario` (`IN_ID_USER`, `VC_PREFIX`, `VC_NOMBRE`, `VC_APELLIDO`, `VC_NRODOC`, `VC_EMAIL`, `VC_TELEFONO`, `VC_PASSWORD`, `VC_TOKEN`, `VC_FOTO`, `VC_ESTADO`) VALUES ('1', 'asoto', 'Armando Luis', 'Soto Chirinos', '73000000', 'asoto.ch.94@gmail.com', '970519667', '$2a$10$aGe/rA4bbRtrQ3wCZYNc4ejFh.vQmk/gKvNebCRrj8TO2XHQF44JK', '', 'https://firebasestorage.googleapis.com/v0/b/dbmunx.appspot.com/o/IMG_20230728_210851.jpg?alt=media&token=18d6f36e-1e25-41d7-ba18-bb2cf8f253ff', 'ACT');
+
+
+INSERT INTO `proyecto_app_upc`.`roles_app` (`IN_ID_ROLES`, `VC_NOMBRE`, `VC_IMAGEN`, `VC_RUTA_PAGINA`) VALUES ('1', 'OPCION1', 'https://firebasestorage.googleapis.com/v0/b/dbmunx.appspot.com/o/ejecutivo.png?alt=media&token=9cc2ef58-b059-433d-8685-18dc828ea783', 'roles/opcion1');
+INSERT INTO `proyecto_app_upc`.`roles_app` (`IN_ID_ROLES`, `VC_NOMBRE`, `VC_IMAGEN`, `VC_RUTA_PAGINA`) VALUES ('2', 'OPCION2', 'https://firebasestorage.googleapis.com/v0/b/dbmunx.appspot.com/o/ejecutivo.png?alt=media&token=9cc2ef58-b059-433d-8685-18dc828ea783', 'roles/opcion2');
+INSERT INTO `proyecto_app_upc`.`roles_app` (`IN_ID_ROLES`, `VC_NOMBRE`, `VC_IMAGEN`, `VC_RUTA_PAGINA`) VALUES ('3', 'OPCION3', 'https://firebasestorage.googleapis.com/v0/b/dbmunx.appspot.com/o/ejecutivo.png?alt=media&token=9cc2ef58-b059-433d-8685-18dc828ea783', 'roles/opcion3');
+
+INSERT INTO `proyecto_app_upc`.`usuario_has_roles` (`IN_ID_USER_HAS_ROLES`, `IN_ID_USER`, `IN_ID_ROLES`, `VC_ESTADO`) VALUES ('1', '1', '1', 'ACT');
+INSERT INTO `proyecto_app_upc`.`usuario_has_roles` (`IN_ID_USER_HAS_ROLES`, `IN_ID_USER`, `IN_ID_ROLES`, `VC_ESTADO`) VALUES ('2', '1', '2', 'ACT');
+INSERT INTO `proyecto_app_upc`.`usuario_has_roles` (`IN_ID_USER_HAS_ROLES`, `IN_ID_USER`, `IN_ID_ROLES`, `VC_ESTADO`) VALUES ('3', '1', '3', 'ACT');
+
+
