@@ -3,7 +3,7 @@ crear base de datos nombre
 ejecutar tablas
 
 CREATE TABLE `proyecto_app_upc`.`usuario` (
-  `IN_ID_USER` INT NOT NULL,
+  `IN_ID_USER` INT NOT NULL AUTO_INCREMENT;,
   `VC_PREFIX` VARCHAR(20) NULL,
   `VC_NOMBRE` VARCHAR(20) NULL,
   `VC_APELLIDO` VARCHAR(20) NULL,
@@ -47,6 +47,19 @@ CREATE TABLE `proyecto_app_upc`.`usuario_has_roles` (
 
   *****************************************
 
+  CREATE TABLE `proyecto_app_upc`.`imagen` (
+  `in_id_img` INT NOT NULL AUTO_INCREMENT,
+  `vc_nombre` VARCHAR(50) NULL,
+  `vc_descripcion` VARCHAR(500) NULL,
+  `vc_imagen` VARCHAR(500) NULL,
+  `vc_estado` VARCHAR(5) NULL,
+  `vc_user_reg` VARCHAR(20) NULL,
+  `dt_fec_reg` DATETIME NULL,
+  `vc_user_mod` VARCHAR(20) NULL,
+  `dt_fec_mod` DATETIME NULL,
+  PRIMARY KEY (`in_id_img`));
+
+
   insert 
 
 INSERT INTO `proyecto_app_upc`.`usuario` (`IN_ID_USER`, `VC_PREFIX`, `VC_NOMBRE`, `VC_APELLIDO`, `VC_NRODOC`, `VC_EMAIL`, `VC_TELEFONO`, `VC_PASSWORD`, `VC_TOKEN`, `VC_FOTO`, `VC_ESTADO`) VALUES ('1', 'asoto', 'Armando Luis', 'Soto Chirinos', '73000000', 'asoto.ch.94@gmail.com', '970519667', '$2a$10$aGe/rA4bbRtrQ3wCZYNc4ejFh.vQmk/gKvNebCRrj8TO2XHQF44JK', '', 'https://firebasestorage.googleapis.com/v0/b/dbmunx.appspot.com/o/IMG_20230728_210851.jpg?alt=media&token=18d6f36e-1e25-41d7-ba18-bb2cf8f253ff', 'ACT');
@@ -59,5 +72,9 @@ INSERT INTO `proyecto_app_upc`.`roles_app` (`IN_ID_ROLES`, `VC_NOMBRE`, `VC_IMAG
 INSERT INTO `proyecto_app_upc`.`usuario_has_roles` (`IN_ID_USER_HAS_ROLES`, `IN_ID_USER`, `IN_ID_ROLES`, `VC_ESTADO`) VALUES ('1', '1', '1', 'ACT');
 INSERT INTO `proyecto_app_upc`.`usuario_has_roles` (`IN_ID_USER_HAS_ROLES`, `IN_ID_USER`, `IN_ID_ROLES`, `VC_ESTADO`) VALUES ('2', '1', '2', 'ACT');
 INSERT INTO `proyecto_app_upc`.`usuario_has_roles` (`IN_ID_USER_HAS_ROLES`, `IN_ID_USER`, `IN_ID_ROLES`, `VC_ESTADO`) VALUES ('3', '1', '3', 'ACT');
+
+INSERT INTO `proyecto_app_upc`.`imagen` (`in_id_img`, `vc_nombre`, `vc_imagen`, `vc_estado`) VALUES ('1', 'LETRA A', 'https://firebasestorage.googleapis.com/v0/b/dbmunx.appspot.com/o/A.png?alt=media&token=abf4bd74-bd24-4713-9ca3-fe893b196ddd', 'ACT');
+INSERT INTO `proyecto_app_upc`.`imagen` (`in_id_img`, `vc_nombre`, `vc_imagen`, `vc_estado`) VALUES ('2', 'LETRA B', 'https://firebasestorage.googleapis.com/v0/b/dbmunx.appspot.com/o/B.png?alt=media&token=f3727aed-ba3f-4511-a161-a2278799350c', 'ACT');
+
 
 

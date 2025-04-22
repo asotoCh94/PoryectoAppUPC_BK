@@ -32,7 +32,7 @@ export class UsuarioService {
                 throw new Error('El email ya está registrado');
             }   
             usuario.password = bryptAdapter.hash(usuario.password);
-
+            console.log('Entro aca2')
             const [rows, fields] = await insertUsuario({
                 prefix: usuario.prefix,
                 nombre: usuario.nombre,

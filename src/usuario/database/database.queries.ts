@@ -41,6 +41,7 @@ export async function findRolByUsuario(id: string): Promise<any> {
 
 export async function insertUsuario(usuario: any): Promise<any> {
     const connection = await getDatabaseConnection();
+
     const [rows, fields] = await connection.execute(
         'INSERT INTO USUARIO (VC_PREFIX, VC_NOMBRE, VC_APELLIDO, VC_NRODOC, VC_EMAIL, VC_TELEFONO, VC_PASSWORD) VALUES (?, ?, ?, ?, ?, ?, ?)',
         [
