@@ -78,3 +78,13 @@ INSERT INTO `proyecto_app_upc`.`imagen` (`in_id_img`, `vc_nombre`, `vc_imagen`, 
 
 
 
+CREATE TABLE `proyecto_app_upc`.`usuario_has_imagen` (
+  `in_id_usuario_has_imagen` INT NOT NULL AUTO_INCREMENT,
+  `in_id_user` INT NULL,
+  `in_id_img` INT NULL,
+  `vc_estado` VARCHAR(5) NULL,
+  `vc_user_reg` VARCHAR(20) NULL,
+  `dt_fec_reg` DATETIME NULL,
+  `vc_user_mod` VARCHAR(20) NULL,
+  `dt_fec_mod` DATETIME NULL,
+  PRIMARY KEY (`in_id_usuario_has_imagen`));

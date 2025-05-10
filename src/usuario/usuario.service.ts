@@ -3,7 +3,7 @@ import * as mysql from 'mysql2/promise'; // Importa el módulo mysql2/promise
 import { databaseConfig } from 'src/database.config';
 import { CreateUsarioDto } from './dto/create-usuario.dto';
 import { bryptAdapter } from 'src/config/bcrypt.adapter';
-import { findAllUsuarios, findUsuarioByEmail, findUsuarioByID, findRolByUsuario, insertUser_x_Rol, insertUsuario, updateUsuario, updateUsuarioWhitImagen } from './database/database.queries';
+import { findAllUsuarios, findUsuarioByEmail, findUsuarioByID, findRolByUsuario, insertUser_x_Rol, insertUsuario, updateUsuario, updateUsuarioWhitImagen, updateEstadoUsuario } from './database/database.queries';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
@@ -32,7 +32,6 @@ export class UsuarioService {
                 throw new Error('El email ya está registrado');
             }   
             usuario.password = bryptAdapter.hash(usuario.password);
-            console.log('Entro aca2')
             const [rows, fields] = await insertUsuario({
                 prefix: usuario.prefix,
                 nombre: usuario.nombre,
@@ -48,21 +47,22 @@ export class UsuarioService {
             const user = {
                 id: usuarioSave.insertId, // Obtener el ID del Usuario insertado
                 prefix: usuario.prefix,
-                name: usuario.nombre,
-                lastName: usuario.apellido,
+                nombre: usuario.nombre,
+                apellido    : usuario.apellido,
                 email: usuario.email,
                 phone: usuario.telefono,  
                 password: usuario.password,              
                 created_at: new Date(), // Puedes asignar la fecha de creación si la tienes disponible
             };
-            
+            //obtenemos los datos del usuario insertado
+            //const user = await findUsuarioByID(usuarioSave.insertId);
             // Insertar registro en la tabla Usuario_HAS_ROLES
             await insertUser_x_Rol({
                 ID_USER: usuarioSave.insertId, // ID_USER del Usuario recién creado
                 ID_ROLES: 1, // Valor predeterminado para IN_ID_ROLES
             });
 
-            const usuarioRoles = ["OPCION1"];
+            const usuarioRoles = ["USUARIO"];
             const payload = { 
                 id: usuarioSave.insertId, 
                 name: user.prefix, 
@@ -185,6 +185,28 @@ export class UsuarioService {
             return updatedUsuario;
         } catch (error) {
             throw new Error('Error al actualizar usuario: ' + error.message);
+        }
+    }
+
+
+    async updateEstado(id: number, usuario: UpdateUsuarioDto): Promise<any> {
+        try {
+            const connection = await mysql.createConnection(databaseConfig);
+
+            const [rows, fields] = await updateEstadoUsuario(id, usuario);
+
+            if (rows.affectedRows === 0) {
+                throw new Error('Usuario no encontrado');
+            }
+            const updatedUsuario = await findUsuarioByID(id);
+
+            if (!updatedUsuario) {
+                throw new Error('Usuario no encontrado');
+            }
+
+            return updatedUsuario;
+        } catch (error) {
+            throw new Error('Error al actualizar estado del usuario: ' + error.message);
         }
     }
 }

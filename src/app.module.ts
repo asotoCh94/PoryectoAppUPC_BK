@@ -5,9 +5,10 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { databaseConfig } from './database.config';
 import { RolesModule } from './roles/roles.module';
 import { ImagenModule } from './imagen/imagen.module';
+import { UserImgModule } from './user_img/user_img.module';
 import * as mysql from 'mysql2/promise';
 @Module({
-  imports: [UsuarioModule, RolesModule, ImagenModule],
+  imports: [UsuarioModule, RolesModule, ImagenModule, UserImgModule],
   controllers: [AppController],
   providers: [AppService],
 })

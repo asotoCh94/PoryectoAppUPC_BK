@@ -34,7 +34,7 @@ export class UsuarioController {
         }
     }
 
-    @HasRoles(JwtRol.OPCION1, JwtRol.OPCION2)
+    @HasRoles(JwtRol.OPCION2)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
     @Get() // http://localhost/usuario GET
     findAll() {
@@ -48,6 +48,19 @@ export class UsuarioController {
 
         try {
             const updatedUsuario = await this.usuarioService.update(id, usuario);
+            return updatedUsuario;
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @HasRoles(JwtRol.OPCION2, JwtRol.OPCION3)
+    @UseGuards(JwtAuthGuard, JwtRolesGuard)
+    @Put('updateEstado/:id') // http://localhost/usuario/:id -> PUT
+    async updateEstado(@Param('id', ParseIntPipe) id: number, @Body() usuario: UpdateUsuarioDto) {
+
+        try {
+            const updatedUsuario = await this.usuarioService.updateEstado(id, usuario);
             return updatedUsuario;
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.NOT_FOUND);
