@@ -84,6 +84,21 @@ export async function findAllUsuarios(): Promise<any> {
     return rows;
 }
 
+export async function findAllEmailUsuarios(): Promise<any> {
+    const connection = await getDatabaseConnection();
+    const [rows] = await connection.execute(
+        `SELECT u.IN_ID_USER, u.VC_EMAIL
+        FROM usuario u
+        WHERE u.IN_ID_USER NOT IN (
+            SELECT ur.IN_ID_USER
+            FROM usuario_has_roles ur
+            JOIN roles_app r ON ur.IN_ID_ROLES = r.IN_ID_ROLES
+            WHERE r.VC_NOMBRE = 'ADMIN'
+        ) and VC_ESTADO ='ACT'`
+    );
+    return rows;
+}
+
 export async function updateUsuario(id: number, usuario: any): Promise<any> {
     const connection = await getDatabaseConnection();
     const [rows, fields] = await connection.execute(

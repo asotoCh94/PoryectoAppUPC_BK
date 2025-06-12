@@ -28,7 +28,7 @@ export class UserImgController {
     async obtenerImagenesPorUsuario(@Param('id_user') id_user: number) {
         try {
             const imagenes = await this.userImgService.ListarImgXIDUser(id_user);
-            return { data: imagenes };
+            return imagenes;
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.NOT_FOUND);
         }        

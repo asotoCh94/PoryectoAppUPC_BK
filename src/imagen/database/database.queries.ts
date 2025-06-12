@@ -71,3 +71,24 @@ export async function updateImagenWhitImagen(id: number, imagen: any): Promise<a
     );
     return [rows, fields];
 }
+
+export async function findImagenesPorLetras(letras: string[]): Promise<any[]> {
+    const connection = await getDatabaseConnection();
+    const placeholders = letras.map(() => '?').join(',');
+
+    const [rows] = await connection.execute(
+    `SELECT in_id_img, vc_nombre, vc_descripcion, vc_imagen
+    FROM proyecto_app_upc.imagen
+    WHERE UPPER(vc_nombre) IN (${placeholders}) AND vc_estado = 'ACT'`,
+        letras
+    );
+
+    // Ordenar resultados manualmente según el orden original de 'letras'
+    const mapa = new Map(rows.map((row: any) => [row.vc_nombre.toUpperCase(), row]));
+
+    const ordenados = letras
+        .map(letra => mapa.get(letra.toUpperCase()))
+        .filter(img => img !== undefined); // eliminar letras que no existen en BD
+
+    return ordenados;
+}

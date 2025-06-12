@@ -43,36 +43,43 @@ export class ImagenController {
         return this.imagenService.deleteImagen(id);
     }
 
-        @HasRoles(JwtRol.OPCION1, JwtRol.OPCION2, JwtRol.OPCION3)
-        @UseGuards(JwtAuthGuard, JwtRolesGuard)
-        @Put('update/:id') // http://localhost/usuario/:id -> PUT
-        async update(@Param('id', ParseIntPipe) id: number, @Body() usuario: UpdateImagenDto) {
-    
-            try {
-                const updatedImagen = await this.imagenService.update(id, usuario);
-                return updatedImagen;
-            } catch (error) {
-                throw new HttpException(error.message, HttpStatus.NOT_FOUND);
-            }
+    @HasRoles(JwtRol.OPCION1, JwtRol.OPCION2, JwtRol.OPCION3)
+    @UseGuards(JwtAuthGuard, JwtRolesGuard)
+    @Put('update/:id') // http://localhost/usuario/:id -> PUT
+    async update(@Param('id', ParseIntPipe) id: number, @Body() usuario: UpdateImagenDto) {
+
+        try {
+            const updatedImagen = await this.imagenService.update(id, usuario);
+            return updatedImagen;
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.NOT_FOUND);
         }
+    }    
     
-        @HasRoles(JwtRol.OPCION1, JwtRol.OPCION2, JwtRol.OPCION3)//proteccion conroles
-        @UseGuards(JwtAuthGuard, JwtRolesGuard)
-        @Put('updateWhitImage/:id')
-        @UseInterceptors(FileInterceptor('file'))
-        updateWhitImage(
-            @UploadedFile(
-                new ParseFilePipe({
-                    validators: [
-                        new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 10 }),//tamaño en bit  maximo 10 megas
-                        new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
-                    ],
-                }),
-            )
-            file: Express.Multer.File,
-            @Param('id', ParseIntPipe) id: number,
-            @Body() imagen: UpdateImagenDto
-        ) {
-            return this.imagenService.updateWithImage(file, id, imagen);
-        }
+    @HasRoles(JwtRol.OPCION1, JwtRol.OPCION2, JwtRol.OPCION3)//proteccion conroles
+    @UseGuards(JwtAuthGuard, JwtRolesGuard)
+    @Put('updateWhitImage/:id')
+    @UseInterceptors(FileInterceptor('file'))
+    updateWhitImage(
+        @UploadedFile(
+            new ParseFilePipe({
+                validators: [
+                    new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 10 }),//tamaño en bit  maximo 10 megas
+                    new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
+                ],
+            }),
+        )
+        file: Express.Multer.File,
+        @Param('id', ParseIntPipe) id: number,
+        @Body() imagen: UpdateImagenDto
+    ) {
+        return this.imagenService.updateWithImage(file, id, imagen);
+    }    
+
+    @HasRoles(JwtRol.OPCION1, JwtRol.OPCION2, JwtRol.OPCION3)
+    @UseGuards(JwtAuthGuard, JwtRolesGuard)
+    @Get('traducir-texto/:texto')
+    traducirTexto(@Param('texto') texto: string) {
+        return this.imagenService.traducirTexto(texto);
+    }
 }

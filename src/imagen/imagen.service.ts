@@ -1,10 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateImagenDto } from './dto/create-imagen.dto';
-import { deleteImagen, findAllImagenes, findImagenByID, insertImagen, updateImagen, updateImagenWhitImagen } from './database/database.queries';
+import { deleteImagen, findAllImagenes, findImagenByID, findImagenesPorLetras, insertImagen, updateImagen, updateImagenWhitImagen } from './database/database.queries';
 import * as mysql from 'mysql2/promise';
 import storage = require('../utils/cloud_storage');
 import { UpdateImagenDto } from './dto/update-imagen.dto';
 import { databaseConfig } from 'src/database.config';
+import { sendEmail } from 'src/config/email/email.service';
+import { findAllEmailUsuarios } from 'src/usuario/database/database.queries';
+import generateEmailTemplate from 'src/config/email/emailTemplate';
 
 @Injectable()
 export class ImagenService {
@@ -31,12 +34,29 @@ export class ImagenService {
                 imagen: url
             };
 
+            const emails = await this.getAllUserEmails(); // Obtener todos los correos de los usuarios
+            const subject = "Nueva Guía de Signos Disponible";
+            const text = `Se ha agregado una nueva guía de signos: ${imagen.nombre}`;
+            const html = generateEmailTemplate(imagen.nombre, imagen.descripcion, url);
+
+            await sendEmail(emails, subject, text, html);
+            
             return createImagen;
 
         } catch (error) {
             throw new Error('Error al crear imagen' + error.message)
         }
 
+    }
+
+    async getAllUserEmails(): Promise<string[]> {
+        try {
+            const usuarios = await findAllEmailUsuarios(); // Aquí debes usar tu tabla de usuarios
+            return usuarios.map((usuario: any) => usuario.VC_EMAIL);
+        } catch (error) {
+            console.error("Error al obtener correos de usuarios:", error.message);
+            throw new Error("Error al obtener correos de usuarios: " + error.message);
+        }
     }
 
 
@@ -115,6 +135,14 @@ export class ImagenService {
                 throw new Error('Error al actualizar imagen: ' + error.message);
             }
         }
-    
+
+    async traducirTexto(texto: string): Promise<any[]> {
+        try {
+            const letras = texto.toUpperCase().replace(/[^A-Z]/g, '').split('');
+            return await findImagenesPorLetras(letras);
+        } catch (error) {
+            throw new Error('Error al traducir texto: ' + error.message);
+        }
+    }
 
 }
